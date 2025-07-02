@@ -1,0 +1,73 @@
+[gd_resource type="SpriteFrames" load_steps=8 format=3 uid="uid://x6p77n1qjwf8"]
+
+[ext_resource type="Texture2D" uid="uid://3cyvp4vj3a43" path="res://assets/tilesets/monochrome-transparent_packed.png" id="1_21hoj"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xqqbg"]
+atlas = ExtResource("1_21hoj")
+region = Rect2(352, 128, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_21hoj"]
+atlas = ExtResource("1_21hoj")
+region = Rect2(368, 128, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cskqp"]
+atlas = ExtResource("1_21hoj")
+region = Rect2(288, 128, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rfs44"]
+atlas = ExtResource("1_21hoj")
+region = Rect2(336, 128, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r667a"]
+atlas = ExtResource("1_21hoj")
+region = Rect2(304, 128, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o1mkn"]
+atlas = ExtResource("1_21hoj")
+region = Rect2(320, 128, 16, 16)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xqqbg")
+}],
+"loop": true,
+"name": &"action",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_21hoj")
+}],
+"loop": true,
+"name": &"dead",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cskqp")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rfs44")
+}],
+"loop": true,
+"name": &"jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r667a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o1mkn")
+}],
+"loop": true,
+"name": &"move",
+"speed": 5.0
+}]

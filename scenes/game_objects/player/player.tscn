@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://lsstk1cm0cfa"]
+
+[ext_resource type="Script" uid="uid://brw74yap7kypm" path="res://scenes/game_objects/player/player.gd" id="1_tuuoe"]
+[ext_resource type="SpriteFrames" uid="uid://dt06n400xyk27" path="res://resources/character_c_sprite_frames.tres" id="2_tuuoe"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tuuoe"]
+size = Vector2(8, 7)
+
+[node name="Player" type="CharacterBody2D"]
+motion_mode = 1
+script = ExtResource("1_tuuoe")
+move_speed = 150.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(0, -4.5)
+shape = SubResource("RectangleShape2D_tuuoe")
+
+[node name="Visuals" type="Node2D" parent="."]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visuals"]
+self_modulate = Color(0.901961, 0.282353, 0.180392, 1)
+sprite_frames = ExtResource("2_tuuoe")
+animation = &"move"
+autoplay = "default"
+offset = Vector2(0, -8)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(3, 3)
+position_smoothing_enabled = true
