@@ -27,6 +27,9 @@ func _get_input_direction() -> void:
 	input_direction = Vector2(horizontal, vertical)
 
 
+
+
+
 @rpc("call_local")
 func do_action() -> void:
 	if multiplayer.is_server():

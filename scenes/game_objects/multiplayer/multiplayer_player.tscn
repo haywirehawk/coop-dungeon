@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://dm45f06mpg7uc"]
+[gd_scene load_steps=9 format=3 uid="uid://dm45f06mpg7uc"]
 
 [ext_resource type="SpriteFrames" uid="uid://dt06n400xyk27" path="res://resources/character_c_sprite_frames.tres" id="1_7m2q4"]
 [ext_resource type="Script" uid="uid://ckinges54fv4w" path="res://scenes/game_objects/multiplayer/multiplayer_controller.gd" id="1_n0alt"]
 [ext_resource type="Script" uid="uid://i5lsojkrl2cd" path="res://scripts/multiplayer/multiplayer_input.gd" id="2_iphor"]
+[ext_resource type="Texture2D" uid="uid://3cyvp4vj3a43" path="res://assets/tilesets/monochrome-transparent_packed.png" id="4_eyg1r"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_iphor"]
 properties/0/path = NodePath(".:player_id")
@@ -20,6 +21,9 @@ properties/3/replication_mode = 1
 properties/4/path = NodePath("Visuals/AnimatedSprite2D:self_modulate")
 properties/4/spawn = true
 properties/4/replication_mode = 1
+properties/5/path = NodePath("DirectionArrow:rotation")
+properties/5/spawn = true
+properties/5/replication_mode = 1
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_eyg1r"]
 properties/0/path = NodePath("InputSynchronizer:input_direction")
@@ -28,6 +32,10 @@ properties/0/replication_mode = 1
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n0alt"]
 size = Vector2(8, 7)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7f46t"]
+atlas = ExtResource("4_eyg1r")
+region = Rect2(368, 320, 16, 16)
 
 [node name="MultiplayerPlayer" type="CharacterBody2D" groups=["Player"]]
 collision_layer = 0
@@ -59,3 +67,8 @@ offset = Vector2(0, -8)
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(3, 3)
 position_smoothing_enabled = true
+
+[node name="DirectionArrow" type="Sprite2D" parent="."]
+rotation = 1.5708
+texture = SubResource("AtlasTexture_7f46t")
+offset = Vector2(0, -16)

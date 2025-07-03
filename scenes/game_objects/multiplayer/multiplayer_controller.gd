@@ -1,6 +1,7 @@
 extends CharacterBody2D
 class_name MultiplayerPlayer
 
+const PLAYER_PALETTE = preload("res://resources/player_palette.tres")
 
 @export var player_id := 1:
 	set(id):
@@ -9,10 +10,9 @@ class_name MultiplayerPlayer
 
 @export var move_speed: float = 50
 @export var do_action: bool = false
-const PLAYER_PALETTE = preload("res://resources/player_palette.tres")
-
 
 @onready var animated_sprite: AnimatedSprite2D = $Visuals/AnimatedSprite2D
+@onready var direction_arrow: Sprite2D = $DirectionArrow
 
 var direction: Vector2
 var movement_deadzone := 20
@@ -30,18 +30,37 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	#get_input_states()
 	if multiplayer.is_server():
-		apply_movement_from_input(delta)
+		get_input()
+		apply_movement(delta)
+		move_and_slide()
+	#else:
+		#predict_movement_from_input(delta)
 
 	if not multiplayer.is_server() or MultiplayerManager.host_mode_enabled:
 		set_animation()
-	move_and_slide()
 	if do_action:
 		interact()
-
-
-func apply_movement_from_input(delta: float) -> void:
-	direction = %InputSynchronizer.input_direction
 	
+	update_directional_arrow()
+
+# TODO: Predictive movement on client. First attempt did not account for authority.
+#func get_local_movement_input() -> void:
+	#var horizontal = Input.get_axis("move_left", "move_right")
+	#var vertical = Input.get_axis("move_up", "move_down")
+	#direction = Vector2(horizontal, vertical)
+	#
+#
+#
+#func predict_movement_from_input(delta: float) -> void:
+	#get_local_movement_input()
+	#apply_movement(delta)
+
+
+func get_input() -> void:
+	direction = %InputSynchronizer.input_direction
+
+
+func apply_movement(delta: float) -> void:
 	if direction:
 		velocity = direction * move_speed
 	else:
@@ -58,6 +77,15 @@ func set_animation() -> void:
 		$Visuals.scale = Vector2(move_sign, 1)
 
 
+func update_directional_arrow() -> void:
+	direction_arrow.look_at(get_global_mouse_position())
+	direction_arrow.rotate(PI/2)
+
+
 func interact() -> void:
 	animated_sprite.play("action")
 	do_action = false
+
+
+func set_player_color(color: Color) -> void:
+	animated_sprite.self_modulate = color

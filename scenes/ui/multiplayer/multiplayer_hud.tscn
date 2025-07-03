@@ -1,0 +1,168 @@
+[gd_scene load_steps=4 format=3 uid="uid://m8o6hy36sppj"]
+
+[ext_resource type="Script" uid="uid://bu4yqkukjv5g7" path="res://scenes/ui/multiplayer/multiplayer_hud.gd" id="1_j0la5"]
+[ext_resource type="PackedScene" uid="uid://3q34anjvpg0" path="res://scenes/ui/multiplayer/color_picker_container.tscn" id="2_xxe2k"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gdsav"]
+
+[node name="MultiplayerHUD" type="CanvasLayer"]
+script = ExtResource("1_j0la5")
+
+[node name="ConnectionInformation" type="Control" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ConnectionInformation"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ConnectionInformation/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_constants/separation = 32
+
+[node name="ConnectedPeers" type="Label" parent="ConnectionInformation/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 12
+text = "Connected Peers"
+
+[node name="StartMultiplayerMenu" type="Control" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(110, 35)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="StartMultiplayerMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -89.5
+offset_top = -49.5
+offset_right = 89.5
+offset_bottom = 49.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_gdsav")
+
+[node name="MarginContainer" type="MarginContainer" parent="StartMultiplayerMenu/PanelContainer"]
+custom_minimum_size = Vector2(300, 200)
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="StartMultiplayerMenu/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="NameContainer" type="HBoxContainer" parent="StartMultiplayerMenu/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label" type="Label" parent="StartMultiplayerMenu/PanelContainer/MarginContainer/VBoxContainer/NameContainer"]
+layout_mode = 2
+text = "Name:"
+
+[node name="NameInput" type="LineEdit" parent="StartMultiplayerMenu/PanelContainer/MarginContainer/VBoxContainer/NameContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Type Name Here"
+
+[node name="ColorPickerContainer" parent="StartMultiplayerMenu/PanelContainer/MarginContainer/VBoxContainer" instance=ExtResource("2_xxe2k")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="HostGame" type="Button" parent="StartMultiplayerMenu/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Host Game"
+
+[node name="JoinGame" type="Button" parent="StartMultiplayerMenu/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Join Game"
+
+[node name="ServerStatusPopover" type="Control" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="ServerStatusPopover"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.811765, 0.776471, 0.721569, 0.470588)
+
+[node name="MarginContainer" type="MarginContainer" parent="ServerStatusPopover"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ServerStatusPopover/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 32
+
+[node name="ServerStatusLabel" type="Label" parent="ServerStatusPopover/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Server Status"
+
+[node name="DisconnectButton" type="Button" parent="ServerStatusPopover/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 24
+text = "Disconnect"
+
+[node name="CloseButton" type="Button" parent="ServerStatusPopover/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 24
+text = "Close"

@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://3q34anjvpg0"]
+
+[ext_resource type="Script" uid="uid://ljoug0h5wanj" path="res://scenes/ui/multiplayer/color_picker_container.gd" id="1_xi37i"]
+[ext_resource type="Texture2D" uid="uid://3cyvp4vj3a43" path="res://assets/tilesets/monochrome-transparent_packed.png" id="2_mpiol"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0hdmd"]
+atlas = ExtResource("2_mpiol")
+region = Rect2(304, 144, 16, 16)
+
+[node name="ColorPickerContainer" type="HBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+script = ExtResource("1_xi37i")
+
+[node name="ChosenColorViewer" type="TextureRect" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = SubResource("AtlasTexture_0hdmd")
