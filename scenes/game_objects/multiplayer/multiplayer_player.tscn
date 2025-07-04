@@ -21,14 +21,14 @@ properties/3/replication_mode = 1
 properties/4/path = NodePath("Visuals/AnimatedSprite2D:self_modulate")
 properties/4/spawn = true
 properties/4/replication_mode = 1
-properties/5/path = NodePath("DirectionArrow:rotation")
-properties/5/spawn = true
-properties/5/replication_mode = 1
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_eyg1r"]
 properties/0/path = NodePath("InputSynchronizer:input_direction")
 properties/0/spawn = true
 properties/0/replication_mode = 1
+properties/1/path = NodePath("InputSynchronizer:mouse_location")
+properties/1/spawn = true
+properties/1/replication_mode = 1
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n0alt"]
 size = Vector2(8, 7)

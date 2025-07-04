@@ -32,6 +32,7 @@ window/size/initial_position_type=3
 
 Player="Player controlled characters"
 PlayerSpawn=""
+PlayersLayer=""
 
 [input]
 

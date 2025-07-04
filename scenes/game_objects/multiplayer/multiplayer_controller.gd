@@ -20,7 +20,7 @@ var movement_deadzone := 20
 
 func _ready() -> void:
 	#animated_sprite.self_modulate =  PLAYER_PALETTE.colors.get(randi_range( 0, PLAYER_PALETTE.colors.size() - 1))
-	animated_sprite.self_modulate = PLAYER_PALETTE.colors.get(get_tree().get_nodes_in_group("Player").size() - 1)
+	#animated_sprite.self_modulate = PLAYER_PALETTE.colors.get(get_tree().get_nodes_in_group("Player").size() - 1)
 	if multiplayer.get_unique_id() == player_id:
 		$Camera2D.make_current()
 	else:
@@ -78,7 +78,7 @@ func set_animation() -> void:
 
 
 func update_directional_arrow() -> void:
-	direction_arrow.look_at(get_global_mouse_position())
+	direction_arrow.look_at(%InputSynchronizer.mouse_location)
 	direction_arrow.rotate(PI/2)
 
 

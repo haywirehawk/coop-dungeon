@@ -14,16 +14,8 @@ var _players_spawn_node: Node2D
 var host_mode_enabled = false
 
 
-func _ready() -> void:
-	multiplayer.peer_connected.connect(_on_peer_connected)
-	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
-	multiplayer.connected_to_server.connect(_on_connected_to_server)
-	multiplayer.connection_failed.connect(_on_connection_failed)
-	multiplayer.server_disconnected.connect(_on_server_disconnected)
-
-
 func become_host() -> void:
-	_players_spawn_node = get_tree().get_first_node_in_group("PlayerSpawn")
+	_players_spawn_node = get_tree().get_first_node_in_group("PlayersLayer")
 	host_mode_enabled = true
 	
 	var server_peer = ENetMultiplayerPeer.new()
@@ -40,16 +32,17 @@ func become_host() -> void:
 	server_peer.get_host().compress(ENetConnection.COMPRESS_RANGE_CODER)
 	
 	multiplayer.multiplayer_peer = server_peer
+	multiplayer.peer_connected.connect(_on_peer_connected)
+	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
 	
-	send_player_information(multiplayer.get_unique_id(), "Host")
+	#send_player_information(multiplayer.get_unique_id(), "Host")
 	
-	_remove_single_player()
 	_add_player_to_game(1)
 
 
 
 func join_game() -> void:
-	_players_spawn_node = get_tree().get_first_node_in_group("PlayerSpawn")
+	_players_spawn_node = get_tree().get_first_node_in_group("PlayersLayer")
 	host_mode_enabled = false
 	
 	var client_peer = ENetMultiplayerPeer.new()
@@ -66,8 +59,9 @@ func join_game() -> void:
 	client_peer.get_host().compress(ENetConnection.COMPRESS_RANGE_CODER)
 	
 	multiplayer.multiplayer_peer = client_peer
-	
-	_remove_single_player()
+	multiplayer.connected_to_server.connect(_on_connected_to_server)
+	multiplayer.connection_failed.connect(_on_connection_failed)
+	multiplayer.server_disconnected.connect(_on_server_disconnected)
 
 
 func disconnect_from_server(client_id: int) -> void:
@@ -89,11 +83,14 @@ func send_player_information(id: int, player_name: String, color: Color = Color.
 
 
 func _add_player_to_game(id: int) -> void:
+	if not multiplayer.is_server():
+		return
 	print("Player %s joined the game." % id)
 	
 	var player_to_add = multiplayer_scene.instantiate()
 	player_to_add.player_id = id
 	player_to_add.name = str(id)
+	print(player_to_add.name)
 	
 	_players_spawn_node.add_child(player_to_add, true)
 	
@@ -109,10 +106,10 @@ func _remove_player_from_game(id: int) -> void:
 	server_clients_updated.emit(multiplayer.get_peers().size(), MAX_CLIENTS)
 
 
-func _remove_single_player() -> void:
-	print("Remove single player")
-	var player_to_remove = get_tree().current_scene.get_node("Player")
-	player_to_remove.queue_free()
+#func _remove_single_player() -> void:
+	#print("Remove single player")
+	#var player_to_remove = get_tree().current_scene.get_node("Player")
+	#player_to_remove.queue_free()
 
 
 func _on_peer_connected(id: int) -> void:

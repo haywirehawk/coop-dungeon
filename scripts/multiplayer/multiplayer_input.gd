@@ -3,6 +3,7 @@ extends MultiplayerSynchronizer
 @onready var player = $".."
 
 var input_direction := Vector2.ZERO
+var mouse_location := Vector2.ZERO
 
 
 func _ready() -> void:
@@ -19,6 +20,7 @@ func _process(delta: float) -> void:
 
 func _physics_process(delta: float) -> void:
 	_get_input_direction()
+	_get_mouse_location()
 
 
 func _get_input_direction() -> void:
@@ -27,7 +29,8 @@ func _get_input_direction() -> void:
 	input_direction = Vector2(horizontal, vertical)
 
 
-
+func _get_mouse_location() -> void:
+	mouse_location = player.get_global_mouse_position()
 
 
 @rpc("call_local")
