@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://dm45f06mpg7uc"]
+[gd_scene load_steps=10 format=3 uid="uid://dm45f06mpg7uc"]
 
 [ext_resource type="SpriteFrames" uid="uid://dt06n400xyk27" path="res://resources/character_c_sprite_frames.tres" id="1_7m2q4"]
 [ext_resource type="Script" uid="uid://ckinges54fv4w" path="res://scenes/game_objects/multiplayer/multiplayer_controller.gd" id="1_n0alt"]
 [ext_resource type="Script" uid="uid://i5lsojkrl2cd" path="res://scripts/multiplayer/multiplayer_input.gd" id="2_iphor"]
 [ext_resource type="Texture2D" uid="uid://3cyvp4vj3a43" path="res://assets/tilesets/monochrome-transparent_packed.png" id="4_eyg1r"]
+[ext_resource type="FontFile" uid="uid://bt0vnfvnva56w" path="res://assets/fonts/PixelOperator8.ttf" id="5_7f46t"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_iphor"]
 properties/0/path = NodePath(".:player_id")
@@ -72,3 +73,24 @@ position_smoothing_enabled = true
 rotation = 1.5708
 texture = SubResource("AtlasTexture_7f46t")
 offset = Vector2(0, -16)
+
+[node name="NameLabel" type="Label" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 8)
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -16.0
+offset_top = -32.0
+offset_right = 16.0
+offset_bottom = -9.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("5_7f46t")
+theme_override_font_sizes/font_size = 8
+text = "Name"
+horizontal_alignment = 1
+vertical_alignment = 1

@@ -3,21 +3,19 @@ extends Node
 signal server_clients_updated(connected_clients: int, max_clients: int)
 signal cant_connect_to_server
 signal disconnected_from_server
+signal players_updated
 
 const SERVER_PORT = 4380
 const SERVER_IP = "127.0.0.1"
 const MAX_CLIENTS := 4
 
-var multiplayer_scene: PackedScene = preload("res://scenes/game_objects/multiplayer/multiplayer_player.tscn")
+var player_scene: PackedScene = preload("res://scenes/game_objects/multiplayer/multiplayer_player.tscn")
 
 var _players_spawn_node: Node2D
 var host_mode_enabled = false
 
 
 func become_host() -> void:
-	_players_spawn_node = get_tree().get_first_node_in_group("PlayersLayer")
-	host_mode_enabled = true
-	
 	var server_peer = ENetMultiplayerPeer.new()
 	var error = server_peer.create_server(SERVER_PORT, MAX_CLIENTS)
 	if error == ERR_ALREADY_IN_USE:
@@ -35,7 +33,9 @@ func become_host() -> void:
 	multiplayer.peer_connected.connect(_on_peer_connected)
 	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
 	
-	#send_player_information(multiplayer.get_unique_id(), "Host")
+	send_player_information(multiplayer.get_unique_id(), "Host")
+	_players_spawn_node = get_tree().get_first_node_in_group("PlayersLayer")
+	host_mode_enabled = true
 	
 	_add_player_to_game(1)
 
@@ -87,7 +87,7 @@ func _add_player_to_game(id: int) -> void:
 		return
 	print("Player %s joined the game." % id)
 	
-	var player_to_add = multiplayer_scene.instantiate()
+	var player_to_add = player_scene.instantiate()
 	player_to_add.player_id = id
 	player_to_add.name = str(id)
 	print(player_to_add.name)
@@ -121,7 +121,7 @@ func _on_peer_disconnected(id: int) -> void:
 
 
 func _on_connected_to_server() -> void:
-	#send_player_information.rpc_id(1, multiplayer.get_unique_id(), GameManager.players[0].name, GameManager.players[0]["color"])
+	send_player_information.rpc_id(1, multiplayer.get_unique_id(), GameManager.players[0].name, GameManager.players[0]["color"])
 	#print(str(GameManager.players[0].name))
 	pass
 

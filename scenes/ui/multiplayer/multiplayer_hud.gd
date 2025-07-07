@@ -1,5 +1,7 @@
 extends Node
 
+#@export var starting_scene: PackedScene
+
 @onready var connection_information: Control = %ConnectionInformation
 @onready var connected_peers: Label = %ConnectedPeers
 
@@ -31,20 +33,27 @@ func _ready() -> void:
 	server_status_popover.hide()
 
 
+#func start_game() -> void:
+	#var scene = starting_scene.instantiate()
+	#get_tree().root.add_child(scene)
+
+
 func _on_host_game_button_pressed() -> void:
 	print("Become Host Pressed")
+	MultiplayerManager.become_host()
+	#start_game()
 	start_multiplayer_menu.hide()
 	#show_status_popover()
 	#update_player_information()
-	MultiplayerManager.become_host()
 
 
 func _on_join_game_button_pressed() -> void:
 	print("Join Game Pressed")
+	MultiplayerManager.join_game()
+	#start_game()
 	start_multiplayer_menu.hide()
 	#show_status_popover()
 	#update_player_information()
-	MultiplayerManager.join_game()
 
 
 func show_status_popover() -> void:

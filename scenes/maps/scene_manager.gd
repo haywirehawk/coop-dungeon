@@ -8,6 +8,7 @@ func _ready() -> void:
 	for i in GameManager.players:
 		var current_player = player_scene.instantiate()
 		current_player.name = str(GameManager.players[i].id)
+		current_player.player_name = GameManager.players[i].name
 		current_player.set_player_color(GameManager.players[i]["color"])
 		for spawn in get_tree().get_nodes_in_group("PlayerSpawn"):
 			if spawn.name == str(index):

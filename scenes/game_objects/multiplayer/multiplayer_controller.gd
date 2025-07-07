@@ -16,11 +16,13 @@ const PLAYER_PALETTE = preload("res://resources/player_palette.tres")
 
 var direction: Vector2
 var movement_deadzone := 20
+var player_name: String
 
 
 func _ready() -> void:
 	#animated_sprite.self_modulate =  PLAYER_PALETTE.colors.get(randi_range( 0, PLAYER_PALETTE.colors.size() - 1))
 	#animated_sprite.self_modulate = PLAYER_PALETTE.colors.get(get_tree().get_nodes_in_group("Player").size() - 1)
+	%NameLabel.text = player_name
 	if multiplayer.get_unique_id() == player_id:
 		$Camera2D.make_current()
 	else:
@@ -85,6 +87,13 @@ func update_directional_arrow() -> void:
 func interact() -> void:
 	animated_sprite.play("action")
 	do_action = false
+
+
+func update_player_info() -> void:
+	var i = multiplayer.get_unique_id()
+	name = str(GameManager.players[i].id)
+	player_name = GameManager.players[i].name
+	set_player_color(GameManager.players[i]["color"])
 
 
 func set_player_color(color: Color) -> void:
