@@ -3,7 +3,6 @@ extends Node
 signal server_clients_updated(connected_clients: int, max_clients: int)
 signal cant_connect_to_server
 signal disconnected_from_server
-signal players_updated
 
 const SERVER_PORT = 4380
 const SERVER_IP = "127.0.0.1"
@@ -33,7 +32,7 @@ func become_host() -> void:
 	multiplayer.peer_connected.connect(_on_peer_connected)
 	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
 	
-	send_player_information(multiplayer.get_unique_id(), "Host")
+	add_player_information(multiplayer.get_unique_id(), GameManager.players[0].name, GameManager.players[0]["color"])
 	_players_spawn_node = get_tree().get_first_node_in_group("PlayersLayer")
 	host_mode_enabled = true
 	
@@ -68,18 +67,17 @@ func disconnect_from_server(client_id: int) -> void:
 	multiplayer.multiplayer_peer.close()
 
 
-@rpc("any_peer", "call_remote", "reliable")
-func send_player_information(id: int, player_name: String, color: Color = Color.WHITE) -> void:
-	if not GameManager.players.has(id):
+func add_player_information(id: int, player_name: String, color: Color = Color.WHITE) -> void:
+	if is_multiplayer_authority():
 		GameManager.players[id] = {
 			"name": player_name,
 			"color": color
 		}
-	
-	if multiplayer.is_server():
-		for i in GameManager.players:
-			send_player_information.rpc(i, GameManager.players[i]["name"], GameManager.players[i]["color"])
 
+
+@rpc("any_peer", "call_remote", "reliable")
+func send_player_information_to_server(id: int, player_name: String, color: Color = Color.WHITE) -> void:
+	add_player_information(id, player_name, color)
 
 
 func _add_player_to_game(id: int) -> void:
@@ -90,7 +88,7 @@ func _add_player_to_game(id: int) -> void:
 	var player_to_add = player_scene.instantiate()
 	player_to_add.player_id = id
 	player_to_add.name = str(id)
-	print(player_to_add.name)
+	print("Player ID " + player_to_add.name + "added to game")
 	
 	_players_spawn_node.add_child(player_to_add, true)
 	
@@ -121,9 +119,7 @@ func _on_peer_disconnected(id: int) -> void:
 
 
 func _on_connected_to_server() -> void:
-	send_player_information.rpc_id(1, multiplayer.get_unique_id(), GameManager.players[0].name, GameManager.players[0]["color"])
-	#print(str(GameManager.players[0].name))
-	pass
+	send_player_information_to_server.rpc_id(1, multiplayer.get_unique_id(), GameManager.players[0].name, GameManager.players[0]["color"])
 
 
 func _on_connection_failed() -> void:

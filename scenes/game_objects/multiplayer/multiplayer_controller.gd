@@ -13,6 +13,7 @@ const PLAYER_PALETTE = preload("res://resources/player_palette.tres")
 
 @onready var animated_sprite: AnimatedSprite2D = $Visuals/AnimatedSprite2D
 @onready var direction_arrow: Sprite2D = $DirectionArrow
+@onready var name_label: Label = %NameLabel
 
 var direction: Vector2
 var movement_deadzone := 20
@@ -22,7 +23,8 @@ var player_name: String
 func _ready() -> void:
 	#animated_sprite.self_modulate =  PLAYER_PALETTE.colors.get(randi_range( 0, PLAYER_PALETTE.colors.size() - 1))
 	#animated_sprite.self_modulate = PLAYER_PALETTE.colors.get(get_tree().get_nodes_in_group("Player").size() - 1)
-	%NameLabel.text = player_name
+	GameManager.player_info_updated.connect(_on_player_info_updated)
+	update_player_info()
 	if multiplayer.get_unique_id() == player_id:
 		$Camera2D.make_current()
 	else:
@@ -87,14 +89,20 @@ func update_directional_arrow() -> void:
 func interact() -> void:
 	animated_sprite.play("action")
 	do_action = false
+	update_player_info()
 
 
 func update_player_info() -> void:
-	var i = multiplayer.get_unique_id()
-	name = str(GameManager.players[i].id)
-	player_name = GameManager.players[i].name
-	set_player_color(GameManager.players[i]["color"])
+	if not GameManager.players.has(int(name)):
+		return
+	name_label.text = GameManager.players[int(name)].name
+	set_player_color(GameManager.players[int(name)].color)
 
 
-func set_player_color(color: Color) -> void:
+func set_player_color(color: Color = Color.FIREBRICK) -> void:
 	animated_sprite.self_modulate = color
+
+
+func _on_player_info_updated() -> void:
+	print("Player info updated and received")
+	update_player_info()

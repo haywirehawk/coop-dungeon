@@ -40,20 +40,20 @@ func _ready() -> void:
 
 func _on_host_game_button_pressed() -> void:
 	print("Become Host Pressed")
+	update_player_information()
 	MultiplayerManager.become_host()
 	#start_game()
 	start_multiplayer_menu.hide()
 	#show_status_popover()
-	#update_player_information()
 
 
 func _on_join_game_button_pressed() -> void:
 	print("Join Game Pressed")
+	update_player_information()
 	MultiplayerManager.join_game()
 	#start_game()
 	start_multiplayer_menu.hide()
 	#show_status_popover()
-	#update_player_information()
 
 
 func show_status_popover() -> void:
